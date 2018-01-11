@@ -20,13 +20,14 @@ public class DataController {
 
 	Logger log = LoggerFactory.getLogger(DataController.class);
 
-	@RequestMapping(value = "/upload", method = RequestMethod.POST)
-	public void upload(@RequestBody DepartmentDto departmentDto) {
-		departmentService.save(departmentDto);
+	@RequestMapping(value = "/upload")
+	public String upload(@RequestBody DepartmentDto departmentDto) {
+		Department dept = departmentService.save(departmentDto);
+		return dept.getDeptId();
 	}
 
 	@RequestMapping(value = "/department/{deptId}", method = RequestMethod.GET)
-	public Department getDepartment(@PathVariable(value = "deptId") String deptId) {
+	public DepartmentDto getDepartment(@PathVariable(value = "deptId") String deptId) {
 		return departmentService.findOne(deptId);
 	}
 }

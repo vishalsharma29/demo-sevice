@@ -1,5 +1,6 @@
 package com.cdk.demoservice.service;
 
+import java.sql.Timestamp;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,21 +23,25 @@ public class DepartmentServiceImpl implements DepartmentService {
 	private HeadOfDepartmentRepository headOfDepartmentRepository;
 
 	@Override
-	public void save(DepartmentDto departmentDto) {
+	public Department save(DepartmentDto departmentDto) {
 		HeadOfDepartmentDto headOfDept = departmentDto.getHeadOfDepartmentDto();
 		HeadOfDepartment headOfDepartment = new HeadOfDepartment(UUID.randomUUID().toString(), headOfDept.getName(),
-				headOfDept.getAge());
+				headOfDept.getAge(), Timestamp.valueOf(headOfDept.getDateOfJoining()));
 		headOfDepartment = headOfDepartmentRepository.save(headOfDepartment);
 		Department department = new Department();
 		department.setDeptId(UUID.randomUUID().toString());
 		department.setDepartmentName(departmentDto.getDepartmentName());
-		department.setHeadOfDepartment(headOfDepartment);
-		departmentRepository.save(department);
+		department.setHeadOfDepartment(headOfDepartment.getId());
+		return departmentRepository.save(department);
 	}
 
 	@Override
-	public Department findOne(String deptId) {
-		return departmentRepository.findOne(deptId);
+	public DepartmentDto findOne(String deptId) {
+		Department dept = departmentRepository.findOne(deptId);
+		HeadOfDepartment hod = headOfDepartmentRepository.findOne(dept.getHeadOfDepartment());
+		DepartmentDto deptDto = new DepartmentDto(dept.getDeptId(), dept.getDepartmentName(),
+				hod.toHeadOfDepartmentDto());
+		return deptDto;
 	}
 
 }

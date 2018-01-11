@@ -5,7 +5,7 @@ import com.cdk.demoservice.domain.Department;
 
 public interface DepartmentService {
 
-	void save(DepartmentDto departmentDto);
+	Department save(DepartmentDto departmentDto);
 
-	Department findOne(String deptId);
+	DepartmentDto findOne(String deptId);
 }

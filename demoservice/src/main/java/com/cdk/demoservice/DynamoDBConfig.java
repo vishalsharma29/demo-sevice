@@ -1,6 +1,7 @@
 package com.cdk.demoservice;
 
 import org.socialsignin.spring.data.dynamodb.repository.config.EnableDynamoDBRepositories;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -10,9 +11,10 @@ import com.amazonaws.auth.AWSCredentials;
 import com.amazonaws.auth.BasicAWSCredentials;
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDB;
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDBClient;
+import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapper;
 
-//@Configuration
-//@EnableDynamoDBRepositories(basePackages = { "com.cdk.demoservice.repository" })
+@Configuration
+@EnableDynamoDBRepositories(basePackages = { "com.cdk.demoservice.repository" })
 public class DynamoDBConfig {
 
 	@Value("${amazon.dynamodb.endpoint}")
@@ -34,6 +36,11 @@ public class DynamoDBConfig {
 
 		return amazonDynamoDB;
 	}
+	
+	@Bean(name = "dynamoDBMapper")
+    public DynamoDBMapper dynamoDbMapper(@Autowired final AmazonDynamoDB amazonDynamoDB) {
+        return new DynamoDBMapper(amazonDynamoDB);
+    }
 
 	@Bean
 	public AWSCredentials amazonAWSCredentials() {

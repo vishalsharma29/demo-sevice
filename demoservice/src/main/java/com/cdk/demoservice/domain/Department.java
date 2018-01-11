@@ -1,26 +1,23 @@
 package com.cdk.demoservice.domain;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
+import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBAttribute;
+import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBHashKey;
+import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBTable;
 
-@Table
-@Entity
+@DynamoDBTable(tableName="demoservice_department")
 public class Department {
 
-	@Id
-	@Column
+    @DynamoDBHashKey
 	private String deptId;
 
-	@Column
+//	@Column
+    @DynamoDBAttribute
 	private String departmentName;
 	
-	@OneToOne
-	@JoinColumn(name="employeeId", referencedColumnName="id")
-	private HeadOfDepartment headOfDepartment;
+//	@OneToOne
+//	@JoinColumn(name="employeeId", referencedColumnName="id")
+	@DynamoDBAttribute
+	private String headOfDepartment;
 
 	public String getDeptId() {
 		return deptId;
@@ -42,12 +39,12 @@ public class Department {
 	}
 
 
-	public HeadOfDepartment getHeadOfDepartment() {
+	public String getHeadOfDepartment() {
 		return headOfDepartment;
 	}
 
 
-	public void setHeadOfDepartment(HeadOfDepartment headOfDepartment) {
+	public void setHeadOfDepartment(String headOfDepartment) {
 		this.headOfDepartment = headOfDepartment;
 	}
 

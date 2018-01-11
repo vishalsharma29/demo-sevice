@@ -1,11 +1,12 @@
 package com.cdk.demoservice.repository;
 
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.socialsignin.spring.data.dynamodb.repository.DynamoDBCrudRepository;
+import org.socialsignin.spring.data.dynamodb.repository.EnableScan;
 
 import com.cdk.demoservice.domain.HeadOfDepartment;
 
-@EnableJpaRepositories
-public interface HeadOfDepartmentRepository extends JpaRepository<HeadOfDepartment, String> {
+//@EnableJpaRepositories
+@EnableScan
+public interface HeadOfDepartmentRepository extends DynamoDBCrudRepository<HeadOfDepartment, String> {
 
 }
